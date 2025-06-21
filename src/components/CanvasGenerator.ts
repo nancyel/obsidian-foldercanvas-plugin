@@ -72,12 +72,11 @@ export async function createCanvasWithNodes(
 						.split("\n")
 						.filter((line: string) => line.trim().match(/^#+\s+/))
 						.map((line: string) => line.replace(/^#+\s*/, ""));
-
+					const fileSettings = { ...settings };
 					if (!headings.includes(settings.selectedHeading)) {
-						settings.selectedHeading = "";
+						fileSettings.selectedHeading = "";
 					}
-
-					return new CanvasNode(index, file.path, settings);
+					return new CanvasNode(index, file.path, fileSettings);
 				} catch (error) {
 					console.log(error);
 					return null;

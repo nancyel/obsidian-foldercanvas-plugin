@@ -28,6 +28,7 @@ export interface FolderCanvasPluginSettings {
 	maxHeight: number;
 	maxSpacing: number;
 	selectedHeading: string;
+	hideHeadingTitles: boolean;
 }
 
 const DEFAULT_SETTINGS: FolderCanvasPluginSettings = {
@@ -42,6 +43,7 @@ const DEFAULT_SETTINGS: FolderCanvasPluginSettings = {
 	maxHeight: 1000,
 	maxSpacing: 100,
 	selectedHeading: "",
+	hideHeadingTitles: false,
 };
 
 const PLUGIN_NAME = "foldercanvas";
@@ -51,9 +53,14 @@ const COMMAND_FULL_ID = `${PLUGIN_NAME}:${COMMMAND_ID}`;
 
 export default class FolderCanvasPlugin extends Plugin {
 	settings: FolderCanvasPluginSettings;
+	private cssEl: HTMLStyleElement | null = null;
 
 	async onload() {
 		await this.loadSettings();
+
+		if (this.settings.hideHeadingTitles) {
+			this.applyCSSStyle();
+		}
 
 		this.addRibbonIcon("palette", "Folder Canvas", (evt: MouseEvent) =>
 			this.triggerCommandById()
@@ -126,6 +133,10 @@ export default class FolderCanvasPlugin extends Plugin {
 				})
 			);
 		});
+	}
+
+	async onunload() {
+		this.removeCSSStyle();
 	}
 
 	async loadSettings() {
@@ -249,6 +260,31 @@ export default class FolderCanvasPlugin extends Plugin {
 				resolve(headings);
 			});
 		});
+	}
+
+	public applyCSSStyle(): void {
+		if (this.cssEl) return; // Already applied
+
+		this.cssEl = document.createElement("style");
+		this.cssEl.textContent = `.inline-title { 
+			color: transparent; 
+		}`;
+		document.head.appendChild(this.cssEl);
+	}
+
+	public removeCSSStyle(): void {
+		if (this.cssEl) {
+			this.cssEl.remove();
+			this.cssEl = null;
+		}
+	}
+
+	public toggleCSSStyle(enabled: boolean): void {
+		if (enabled) {
+			this.applyCSSStyle();
+		} else {
+			this.removeCSSStyle();
+		}
 	}
 }
 
@@ -441,6 +477,23 @@ class FolderCanvasSettingTab extends PluginSettingTab {
 					this.plugin.settings.selectedHeading = value;
 					await this.plugin.saveSettings();
 				});
+			});
+
+		// New toggle setting for hiding heading titles
+		new Setting(containerEl)
+			.setName("Hide heading titles")
+			.setDesc(
+				"Toggle to hide heading titles by applying custom CSS styling."
+			)
+			.addToggle((toggle) => {
+				toggle
+					.setValue(this.plugin.settings.hideHeadingTitles || false)
+					.onChange(async (value) => {
+						this.plugin.settings.hideHeadingTitles = value;
+						await this.plugin.saveSettings();
+
+						this.plugin.toggleCSSStyle(value);
+					});
 			});
 	}
 
