@@ -39,6 +39,7 @@
     -   **Nodes per row**: The number of columns to display notes is set to 4. It is configurable with a slider 1-10.
     -   **Node width, height, and spacing**: The width, height, and spacing of the nodes can be configured with constraints. Can be reset to default.
     -   **Narrow to heading**: A dropdown menu will display the headings from the currently active file. If no headings are found, the menu will remain empty.
+    -   **Hide heading titles**: A toggle can be enabled for the selected heading's CSS properties to be modified to hide it from view.
 
 ## How to Contribute
 

@@ -268,6 +268,7 @@ export default class FolderCanvasPlugin extends Plugin {
 		this.cssEl = document.createElement("style");
 		this.cssEl.textContent = `.inline-title { 
 			color: transparent; 
+			height: 0;
 		}`;
 		document.head.appendChild(this.cssEl);
 	}
