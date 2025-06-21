@@ -1,7 +1,7 @@
 {
 	"id": "foldercanvas",
 	"name": "Folder Canvas",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"minAppVersion": "1.7.7",
 	"description": "Generate a Canvas view of your folder structure.",
 	"author": "Nancy Lee",
