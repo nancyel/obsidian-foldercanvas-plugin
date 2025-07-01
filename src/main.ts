@@ -266,7 +266,7 @@ export default class FolderCanvasPlugin extends Plugin {
 		if (this.cssEl) return; // Already applied
 
 		this.cssEl = document.createElement("style");
-		this.cssEl.textContent = `.inline-title { 
+		this.cssEl.textContent = `.inline-title.markdown-rendered { 
 			color: transparent; 
 			height: 0;
 		}`;
