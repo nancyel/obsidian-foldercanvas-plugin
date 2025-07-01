@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-foldercanvas-plugin",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Generate a Canvas view of your folder structure",
 	"main": "main.js",
 	"scripts": {
